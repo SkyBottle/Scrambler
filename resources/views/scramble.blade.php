@@ -1,22 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script>window.Laravel = { csrfToken: '' }</script>
-        <link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet'>
-        <title>Scramble</title>
+@extends('layouts.app')
 
-    </head>
-    <body>
-        <div id="app">
-
-            <div class="container">
-                <scramble></scramble>
-            </div>
-        </div>
-
-        <script src="{{ asset('js/app.js') }}"></script>
-    </body>
-</html>
+@section('content')
+<div class="container">
+    <scramble></scramble>
+</div>
+@endsection

@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Get randomize word [medium length]
-Route::get('MediumWord','WordController@index');
+Route::get('Word/{length}','WordController@index');

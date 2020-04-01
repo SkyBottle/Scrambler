@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('scramble', require('./components/ScrambleComponent.vue').default);
+Vue.component('nav-bar', require('./components/NavBarComponent.vue').default);
 
 
 /**
