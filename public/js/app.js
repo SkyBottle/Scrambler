@@ -2128,16 +2128,72 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     clicked: true;
 
     return {
+      score: 0,
       word: '',
       scrambled_word: '',
       answer_word: '',
-      is_skiped: false
+      is_skipped: false,
+      is_correct: false,
+      message: ''
     };
   },
   created: function created() {
@@ -2229,11 +2285,15 @@ __webpack_require__.r(__webpack_exports__);
       this.answer_word.forEach(function (element) {
         answer += element.content;
       });
+      var word_length = this.word.length;
 
       if (answer === this.word) {
-        console.log('correct');
+        this.is_correct = true;
+        this.message = 'Your answer is correct';
+        this.score += (word_length + word_length * word_length / 10) * 100;
       } else {
-        console.log('wrong');
+        this.message = 'Your answer is wrong';
+        this.score -= word_length * word_length / 10 * 100;
       }
     },
     btnClearClick: function btnClearClick() {
@@ -2241,8 +2301,10 @@ __webpack_require__.r(__webpack_exports__);
       this.scrambleWord();
     },
     btnSkipClick: function btnSkipClick() {
-      //disable submit button
-      this.is_skiped = true; //fill the answer
+      //mesage
+      this.message = 'You skipped this word'; //disable button
+
+      this.is_skipped = true; //fill the answer
 
       var temparray = [];
       var answer = this.word.split("");
@@ -2256,6 +2318,12 @@ __webpack_require__.r(__webpack_exports__);
         iterator++;
       });
       this.answer_word = temparray;
+    },
+    btnNextClick: function btnNextClick() {
+      this.fetchWord();
+      this.is_skipped = false;
+      this.is_correct = false;
+      this.message = '';
     }
   }
 });
@@ -6824,7 +6892,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".container[data-v-7d888dd5] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n}\n.title-sm[data-v-7d888dd5] {\n  font-family: sans-serif;\n  font-size: 1.5em;\n}\n.word-container[data-v-7d888dd5] {\n  display: flex;\n  margin: 2rem;\n}\n.word-container .character[data-v-7d888dd5] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  border: black 1px solid;\n  padding: 0.2rem 0.6rem;\n  margin: 0 0.2rem;\n  border-radius: 15%;\n  width: 3rem;\n  height: 4rem;\n  font-family: \"Roboto Slab\", sans-serif;\n  font-size: 3em;\n}\n.word-container .clicked[data-v-7d888dd5] {\n  opacity: 35%;\n}\n.button-container[data-v-7d888dd5] {\n  display: grid;\n  grid-template-columns: auto auto;\n  grid-gap: 1rem;\n}\n.button-container .button[data-v-7d888dd5] {\n  border: none;\n  color: white;\n  padding: 1rem 3rem;\n  text-align: center;\n  text-decoration: none;\n  display: inline-block;\n  font-size: 1em;\n  cursor: pointer;\n  border-radius: 0.3rem;\n}\n.button-container .button-submit[data-v-7d888dd5] {\n  background-color: #FF381B;\n  grid-column-start: 1;\n  grid-column-end: 3;\n}\n.button-container .button-skip[data-v-7d888dd5] {\n  background-color: #6CAA9F;\n}\n.button-container .button-clear[data-v-7d888dd5] {\n  background-color: #FF6B2D;\n}", ""]);
+exports.push([module.i, ".container[data-v-7d888dd5] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-direction: column;\n}\n.title-sm[data-v-7d888dd5] {\n  font-family: sans-serif;\n  font-size: 1.5em;\n}\n.word-container[data-v-7d888dd5] {\n  display: flex;\n  margin: 2rem;\n}\n.word-container .character[data-v-7d888dd5] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  border: black 1px solid;\n  padding: 0.2rem 0.6rem;\n  margin: 0 0.2rem;\n  border-radius: 15%;\n  width: 3rem;\n  height: 4rem;\n  font-family: \"Roboto Slab\", sans-serif;\n  font-size: 3em;\n}\n.word-container .clicked[data-v-7d888dd5] {\n  opacity: 35%;\n}\n.score-container[data-v-7d888dd5] {\n  margin: 2rem;\n  font-size: 2em;\n  font-family: \"Roboto-Slab\", sans-serif;\n}\n.button[data-v-7d888dd5] {\n  border: none;\n  color: white;\n  padding: 1rem 3rem;\n  text-align: center;\n  text-decoration: none;\n  display: inline-block;\n  font-size: 1em;\n  cursor: pointer;\n  border-radius: 0.3rem;\n}\n.button-container[data-v-7d888dd5] {\n  display: grid;\n  grid-template-columns: auto auto;\n  grid-gap: 1rem;\n}\n.button-container .button-submit[data-v-7d888dd5] {\n  background-color: #FF381B;\n  grid-column-start: 1;\n  grid-column-end: 3;\n}\n.button-container .button-submit[data-v-7d888dd5]:hover {\n  background-color: #b41700;\n}\n.button-container .button-skip[data-v-7d888dd5] {\n  background-color: #6CAA9F;\n}\n.button-container .button-skip[data-v-7d888dd5]:hover {\n  background-color: #407067;\n}\n.button-container .button-clear[data-v-7d888dd5] {\n  background-color: #FF6B2D;\n}\n.button-container .button-clear[data-v-7d888dd5]:hover {\n  background-color: #c63a00;\n}\n.button-container .skipped[data-v-7d888dd5] {\n  opacity: 50%;\n}\n.hidden-container[data-v-7d888dd5] {\n  display: flex;\n  flex-direction: column;\n  margin: 2rem;\n}\n.message[data-v-7d888dd5] {\n  font-size: 1.5em;\n  font-family: \"Roboto Slab\", sans-serif;\n  margin-bottom: 1rem;\n}\n.button-next[data-v-7d888dd5] {\n  background-color: #FF381B;\n}\n.button-next[data-v-7d888dd5]:hover {\n  background-color: #b41700;\n}", ""]);
 
 // exports
 
@@ -39771,6 +39839,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
+    _c("p", { staticClass: "title-sm" }, [_vm._v("Score : ")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "score-container" }, [
+      _vm._v("\n        " + _vm._s(_vm.score) + "\n    ")
+    ]),
+    _vm._v(" "),
     _c("p", { staticClass: "title-sm" }, [_vm._v("Scrambled : ")]),
     _vm._v(" "),
     _c(
@@ -39823,7 +39897,8 @@ var render = function() {
         "button",
         {
           staticClass: "button button-submit",
-          attrs: { disabled: _vm.is_skiped },
+          class: { skipped: _vm.is_skipped || _vm.is_correct },
+          attrs: { disabled: _vm.is_skipped || _vm.is_correct },
           on: {
             click: function($event) {
               return _vm.btnSubmitClick()
@@ -39837,6 +39912,8 @@ var render = function() {
         "button",
         {
           staticClass: "button button-skip",
+          class: { skipped: _vm.is_skipped || _vm.is_correct },
+          attrs: { disabled: _vm.is_skipped || _vm.is_correct },
           on: {
             click: function($event) {
               return _vm.btnSkipClick()
@@ -39850,7 +39927,8 @@ var render = function() {
         "button",
         {
           staticClass: "button button-clear",
-          attrs: { disabled: _vm.is_skiped },
+          class: { skipped: _vm.is_skipped || _vm.is_correct },
+          attrs: { disabled: _vm.is_skipped || _vm.is_correct },
           on: {
             click: function($event) {
               return _vm.btnClearClick()
@@ -39859,6 +39937,27 @@ var render = function() {
         },
         [_vm._v("\n        Clear\n        ")]
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "hidden-container" }, [
+      _c("div", { staticClass: "message" }, [
+        _vm._v("\n            " + _vm._s(_vm.message) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _vm.is_skipped || _vm.is_correct
+        ? _c(
+            "button",
+            {
+              staticClass: "button button-next",
+              on: {
+                click: function($event) {
+                  return _vm.btnNextClick()
+                }
+              }
+            },
+            [_vm._v("\n        Next\n        ")]
+          )
+        : _vm._e()
     ])
   ])
 }

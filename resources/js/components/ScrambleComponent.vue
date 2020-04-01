@@ -31,33 +31,66 @@
             opacity: 35%;
         }
     }
-
+    .score-container{
+        margin: 2rem;
+        font-size: 2em;
+        font-family: 'Roboto-Slab',sans-serif;
+    }
+    .button{
+        border: none;
+        color: white;
+        padding: 1rem 3rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 0.3rem;
+    }
     .button-container{
         display: grid;
         grid-template-columns: auto auto;
         grid-gap: 1rem;
 
-        .button{
-            border: none;
-            color: white;
-            padding: 1rem 3rem;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 0.3rem;
-        }
         .button-submit{
             background-color: $button-color-1;
             grid-column-start: 1;
             grid-column-end: 3;
+
+            &:hover{
+                background-color: darken($button-color-1,20%);
+            }
         }
         .button-skip{
             background-color: $button-color-3;
+            &:hover{
+                background-color: darken($button-color-3,20%);
+            }
         }
         .button-clear{
             background-color: $button-color-2;
+            &:hover{
+                background-color: darken($button-color-2,20%);
+            }
+        }
+        .skipped{
+            opacity: 50%;
+        }
+    }
+    .hidden-container{
+        display: flex;
+        flex-direction: column;
+        margin: 2rem
+    }
+    .message{
+        font-size: 1.5em;
+        font-family: 'Roboto Slab',sans-serif;
+        margin-bottom: 1rem;
+    }
+    .button-next{
+        background-color: $button-color-1;
+        &:hover{
+            background-color: darken($button-color-1,20%);
         }
     }
 
@@ -65,6 +98,11 @@
 
 <template>
     <div class="container">
+        <p class="title-sm">Score : </p>
+        <div class="score-container">
+            {{score}}
+        </div>
+
         <p class="title-sm">Scrambled : </p>
         <div class="word-container">
             <div class="character char-scrambled"
@@ -87,20 +125,35 @@
         <div class="button-container">
             <button class="button button-submit"
                 v-on:click="btnSubmitClick()"
-                :disabled="is_skiped"
+                :disabled="is_skipped || is_correct"
+                v-bind:class="{ skipped: is_skipped || is_correct}"
             >
             Submit
             </button>
 
             <button class="button button-skip"
-                v-on:click="btnSkipClick()">
+                v-on:click="btnSkipClick()"
+                :disabled="is_skipped || is_correct"
+                v-bind:class="{ skipped: is_skipped || is_correct}">
             Skip
             </button>
 
             <button class="button button-clear"
                 v-on:click="btnClearClick()"
-                :disabled="is_skiped">
+                :disabled="is_skipped || is_correct"
+                v-bind:class="{ skipped: is_skipped || is_correct}">
             Clear
+            </button>
+        </div>
+
+        <div class="hidden-container">
+            <div class="message">
+                {{message}}
+            </div>
+            <button class="button button-next"
+                v-if="is_skipped || is_correct"
+                v-on:click="btnNextClick()">
+            Next
             </button>
         </div>
     </div>
@@ -113,10 +166,13 @@ export default {
     data() {
         clicked: true
         return {
+            score: 0,
             word: '',
             scrambled_word: '',
             answer_word: '',
-            is_skiped: false
+            is_skipped: false,
+            is_correct: false,
+            message: ''
         }
     },
 
@@ -181,12 +237,15 @@ export default {
             this.answer_word.forEach(element => {
                 answer += element.content
             })
-
+            let word_length = this.word.length
             if(answer === this.word) {
-                console.log('correct')
+                this.is_correct = true
+                this.message = 'Your answer is correct'
+                this.score += (word_length + (word_length * word_length / 10)) * 100
             }
             else {
-                console.log('wrong')
+                this.message = 'Your answer is wrong'
+                this.score -= (word_length * word_length / 10) * 100
             }
         },
         btnClearClick() {
@@ -194,8 +253,10 @@ export default {
             this.scrambleWord()
         },
         btnSkipClick() {
-            //disable submit button
-            this.is_skiped = true;
+            //mesage
+            this.message = 'You skipped this word'
+            //disable button
+            this.is_skipped = true;
             //fill the answer
             let temparray = []
             let answer = this.word.split("")
@@ -205,6 +266,12 @@ export default {
                 iterator++
             })
             this.answer_word = temparray
+        },
+        btnNextClick() {
+            this.fetchWord()
+            this.is_skipped = false
+            this.is_correct = false
+            this.message = ''
         }
     }
 }
