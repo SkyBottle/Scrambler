@@ -11,9 +11,9 @@ class WordController extends Controller
     {
         $file = '';
         if($length == 'Short') {
-            $file = fopen(resource_path("word-source\short-word.txt"), "r");
+            $file = fopen(resource_path("word-source/short-word.txt"), "r");
         } else if ($length == 'Medium'){
-            $file = fopen(resource_path("word-source\medium-word.txt"), "r");
+            $file = fopen(resource_path("word-source/medium-word.txt"), "r");
         }
 
         $words = '';
