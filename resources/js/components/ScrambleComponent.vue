@@ -24,8 +24,8 @@
             border-radius: 15%;
             width: 3rem;
             height: 4rem;
-            font-family: 'Roboto Slab',sans-serif;
             font-size: 3em;
+            cursor: pointer;
         }
         .clicked{
             opacity: 35%;
@@ -34,7 +34,6 @@
     .score-container{
         margin: 2rem;
         font-size: 2em;
-        font-family: 'Roboto-Slab',sans-serif;
     }
     .button{
         border: none;
@@ -80,29 +79,32 @@
     .hidden-container{
         display: flex;
         flex-direction: column;
-        margin: 2rem
-    }
-    .message{
+        margin: 2rem;
+
+        .message{
         font-size: 1.5em;
-        font-family: 'Roboto Slab',sans-serif;
         margin-bottom: 1rem;
-    }
-    .button-next{
-        background-color: $button-color-1;
-        &:hover{
-            background-color: darken($button-color-1,20%);
+        }
+        .button-next{
+            background-color: $button-color-1;
+            &:hover{
+                background-color: darken($button-color-1,20%);
+            }
         }
     }
+
 
 </style>
 
 <template>
     <div class="container">
+        <!-- Score -->
         <p class="title-sm">Score : </p>
         <div class="score-container">
             {{score}}
         </div>
 
+        <!-- Scrambled -->
         <p class="title-sm">Scrambled : </p>
         <div class="word-container">
             <div class="character char-scrambled"
@@ -113,6 +115,7 @@
             </div>
         </div>
 
+        <!-- Answer -->
         <p class="title-sm">Answer : </p>
         <div class="word-container">
             <div class="character char-answer"
@@ -122,6 +125,7 @@
             </div>
         </div>
 
+        <!-- Button -->
         <div class="button-container">
             <button class="button button-submit"
                 v-on:click="btnSubmitClick()"
@@ -146,6 +150,7 @@
             </button>
         </div>
 
+        <!-- Message and Next -->
         <div class="hidden-container">
             <div class="message">
                 {{message}}
@@ -203,7 +208,7 @@ export default {
         },
         fetchWord() {
             axios
-            .get('api/Word/Medium   ')
+            .get('api/Word/Medium')
             .then(response => {(
                 //remove newline from word
                 this.word = response.data.toUpperCase().split("\n")[0]);
